@@ -1,0 +1,30 @@
+{
+  "log_header_pattern": "(\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2}\\.\\d{3})\\s+(\\d+)\\s+(\\d+)\\s+([A-Z])\\s+([^:]+):\\s+(.*)",
+  "time_format": "%m-%d %H:%M:%S.%f",
+  "events": [
+    {
+      "name": "App Launch",
+      "start_regex": "START_APP_LAUNCH",
+      "end_regex": "END_APP_LAUNCH",
+      "threshold_ms": 2000
+    },
+    {
+      "name": "Init Database",
+      "start_regex": "DB_INIT_START",
+      "end_regex": "DB_INIT_END",
+      "threshold_ms": 500
+    },
+    {
+      "name": "Fetch API",
+      "start_regex": "API_FETCH_START",
+      "end_regex": "API_FETCH_END",
+      "threshold_ms": 300
+    },
+    {
+      "name": "Process Data",
+      "start_regex": "DATA_PROCESS_START",
+      "end_regex": "DATA_PROCESS_END",
+      "threshold_ms": 100
+    }
+  ]
+}
