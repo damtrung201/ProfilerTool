@@ -94,18 +94,24 @@ class LogProfiler:
                 line = line.strip()
                 match = self.log_pattern.match(line)
                 
-                if not match: continue # Bỏ qua dòng không đúng format
+                if not match: continue 
                 
-                # Parse Header
-                time_str, pid, tid, level, tag, message = match.groups()
+                # CẬP NHẬT Ở ĐÂY: Thêm biến uid vào để hứng dữ liệu
+                # Regex cũ: time, pid, tid, level, tag, msg
+                # Regex mới: time, uid, pid, tid, level, tag, msg
+                time_str, uid, pid, tid, level, tag, message = match.groups()
+                
                 current_time = self.parse_timestamp(time_str)
+                
+                # Ép kiểu dữ liệu
+                pid = int(pid) 
                 tid = int(tid)
+                
+                # (Tùy chọn) Nếu bạn muốn dùng UID để phân tích thì lưu lại, 
+                # còn không thì chỉ cần biến này để hứng cho code không lỗi.
 
-                # Check sự kiện
-                self._check_events(tid, current_time, message)
-
-        # Xử lý các event chưa đóng (do crash hoặc log thiếu)
-        self._close_dangling_events()
+                # Truyền tiếp vào hàm xử lý
+                self._check_events(pid, tid, current_time, message)
 
     def _check_events(self, tid, timestamp, message):
         for definition in self.event_defs:
